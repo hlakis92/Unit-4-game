@@ -1,36 +1,64 @@
+$(document).ready(function () {
+    //Diamaonds random number
+  
 
-//Diamaonds random number
-var numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-var diamondNumber = Math.floor(Math.random()* numbers.length);
-console.log(diamondNumber);
+    //Wins and losses Variables
+    var count;
+    var wins = 0;
+    var losses = 0;
 
-//This x will be the random variable attached to each diamond (ex. diamondColor[x])
-var x = Math.floor(Math.random()*diamondNumber);
+    //Random Generated number for the user to guess
+    var guessNumber;
 
-console.log(x);
-
-
-//Random Generated number for the user to guess
-var guessNumber = [];
-for (var i=10, t=55; i<=t; i++) {
-    guessNumber.push(Math.round(Math.random() * t))
-};
-console.log(guessNumber);
-var randomNumber = Math.floor(Math.random()* guessNumber.length);
-
-$("#random").html(randomNumber);
+    //Calling the reset game up here and putting the 
+    //other funtions in the reset game to keep code clean
+    resetGame();
+    gamePlay();
+    
 
 
+   
+    // Appending random number to assign to each diamond in the html doc
+    // The > means the img is a direct descendant of crystals
+    function resetGame(){
+        count = 0;
+
+        gamePlay();
+        guessNumber = (Math.floor(Math.random() * 101 + 19));
+         $("#random").html(guessNumber);
+         console.log(guessNumber);
+
+         $(".crystals img").each(function() {
+            diamondRandom = Math.floor(Math.random() * 11 + 1);
+            $(this).attr("cNumber", diamondRandom);
+        });
+
+        $("#score").html(count);
+    }
 
 
-//Giving the Diamonds a random value each time the game restarts
-// window.onload = function () {
-//     //  Click events are done for us:
-//     $("#blueDiamond").click();
-//     $("#greenDiamond").click();
-//     $("#pinkDiamond").click();
-//     $("#whiteDiamond").click();
-//    };
 
+    // This function will grab the images with the gem class, 
+    //and store the value of what is clicked, plus the count into the score <p>
+    //parseInt tunrs a string of a number into a number
+        $(".crystals img").on("click", function () {
+            count += parseInt($(this).attr("cNumber"));
+            $("#score").html(count);
+            gamePlay();
+        })
+     
+//This function below is to accumulate the wins and losses after is,
+// resetGame in here to reset the game after a win or lose
+           function gamePlay(){
+           if(count === guessNumber){
+               alert("You got it!!");
+               wins++;
+               resetGame();
 
-
+           } else if (count > guessNumber){
+               alert("sorry, no smoke!! Your number was " + count + "!");
+               losses++;
+               resetGame();
+           }
+        }
+    });

@@ -51,8 +51,9 @@
 
         }
 
-        #winsLoses {
+        .winsLoses {
             border: solid black 5px; 
             text-align: center;
-            font-size: 26px;
+            font-size: 20px;
+            
         }
